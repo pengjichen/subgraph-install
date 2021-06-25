@@ -10,8 +10,11 @@ git config --global user.email "user@support.com"
 git config --global user.name "user"
 
 ### install rust cargo.  from https://www.rust-lang.org/tools/install
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-#source $HOME/.cargo/env; # 需要在terminal中手动执行，否则不生效
+### curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # 安装过程中需要手动交互，弃用
+
+###cargo安装自动运行
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs >> cargo-install.sh; sh cargo-install.sh -y; rm cargo-install.sh;
+source $HOME/.cargo/env; # 在脚本中执行，只在脚本中生效；需要在terminal中手动执行，才能在terminal中生效
 
 ### install npm
 curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
@@ -59,8 +62,13 @@ cd go-ipfs;
 cd ..
 
 ## create and start postgresql with user postgres
+# echo "set user postgres's password"
+passwd postgres <<EOF
+> 123456
+> 123456
+> EOF
+
 #echo "will change user to start postgres"
-echo  '123456' |passwd  --stdin postgres;
 su - postgres <<EOF
 /usr/lib/postgresql/13/bin/initdb -D ./postgres;
 /usr/lib/postgresql/13/bin/pg_ctl -D ./postgres -l logfile start;
