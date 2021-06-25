@@ -41,11 +41,22 @@ rm go-ipfs_v0.9.0_linux-amd64.tar.gz
 
 # insteall postgres
 # https://www.postgresql.org/download/
+# 需要交互 输入大洲6，城市70 上海
+# 无交互安装txdata，默认使用etc/utc时间，安装后可手动调整
+
+apt update;DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
+# dpkg-reconfigure tzdata # 调整时区
+
+apt update;
+apt-get install -y wget lsb-release gnupg2; \
 sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list';
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -;
 apt-get update;
 apt-get -y install postgresql;
-
+su postgres<<EOF
+pg_ctlcluster 13 main start;
+exit
+EOF
 
 ### install graphnode
 apt-get install -y clang libpq-dev libssl-dev pkg-config;
