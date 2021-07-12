@@ -29,7 +29,9 @@ apt-get install yarn;
 
 
 ## install graph-cli
-yarn global add @graphprotocol/graph-cli
+yarn global add @graphprotocol/graph-cli # for thegraph.com
+#yarn global add @hgdotnetwork/graph-cli # for hg.network
+
 
 
 ## install ipfs
